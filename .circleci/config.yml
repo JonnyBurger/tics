@@ -7,7 +7,7 @@ defaults: &defaults
 
 jobs:
   install:
-    <<: *defaults	
+    <<: *defaults
     docker:
     - image: circleci/node:10
     - image: mongo:3.4.4
@@ -26,7 +26,7 @@ jobs:
           root: ~/repo
           paths: .
   deploy:
-    <<: *defaults	
+    <<: *defaults
     steps:
       - attach_workspace:
           at: ~/repo

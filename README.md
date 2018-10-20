@@ -1,7 +1,7 @@
-# tics
-> Simple self-hosted analytics for Express / React Native stack
+# 🎢  tics [![CircleCI](https://circleci.com/gh/JonnyBurger/tics/tree/master.svg?style=svg)](https://circleci.com/gh/JonnyBurger/tics/tree/master)
+> Simple self-hosted analytics ideal Express / React Native stacks
 
-## Install
+## 🚥 Install
 
 On both your frontend and backend, install the tics library.
 
@@ -9,19 +9,27 @@ On both your frontend and backend, install the tics library.
 npm i tics
 ```
 
-## How it works
+## 🤹🏼‍  How it works
 You mount an Express.js Router, accept requests to your server and save impressions in your database. `tics` also provides a frontend library to send impressions. 
 
-## Usage
+## 🎛 Usage
 ### Backend
 
 ```js
 const app = require('express');
 const tics = require('tics/server');
-const {impressions, analytics, stats} = tics({ db: 'db_collection' });
+const db = require('./mongo');
 
+const {impressions, analytics, stats} = tics({
+    db: db.collection('impressions')
+});
+
+// Use endpoints to receive impressions and retrieve stats
 app.use('/telemetry', impressions);
 app.use('/analytics', mustBeAdmin, analytics);
+
+// Or use built-in functions to get stats
+await stats.activeUsers.daily() // => 29
 ```
 
 **tics()** takes a MongoDB database collection as an argument. Collections from `mongodb` and `then-mongo` drivers have been tested.
@@ -79,9 +87,9 @@ Returned is an object which contains:
 
 Not yet implemented!
 
-## Author
+## 👨🏻‍💻 Author
 
 * [Jonny Burger](https://jonny.io)
 
-## License
+## 🗒 License
 MIT

@@ -5,7 +5,7 @@ import getPort from 'get-port';
 import pify from 'pify';
 import mongo from 'then-mongo';
 import {sortBy} from 'lodash';
-import tics from '../src';
+import tics from '../src/server';
 import {create, destroy} from './helpers/db-mock';
 
 test.beforeEach(async t => {

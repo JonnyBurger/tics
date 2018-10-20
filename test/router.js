@@ -4,6 +4,7 @@ import got from 'got';
 import getPort from 'get-port';
 import pify from 'pify';
 import mongo from 'then-mongo';
+import {sortBy} from 'lodash';
 import tics from '../src';
 import {create, destroy} from './helpers/db-mock';
 
@@ -16,9 +17,10 @@ test.beforeEach(async t => {
 	t.context.dbUrl = `mongodb://${userName}:test@localhost:27017/${dbName}`;
 	t.context.db = mongo(t.context.dbUrl, ['impressions']);
 	t.context.api = `http://localhost:${t.context.port}`;
-	const {impressions, analytics} = tics({
+	const {impressions, analytics, stats} = tics({
 		db: t.context.db.impressions
 	});
+	t.context.stats = stats;
 	app.use('/analytics', analytics);
 	app.use('/telemetry', impressions);
 	await pify(app.listen.bind(app))(port);
@@ -87,5 +89,58 @@ test('Two impressions by the same user should count as 1 user', async t => {
 		});
 	}
 	const stats = await getStats(t.context.api);
-	t.is(stats.body.data.dailyActiveUsers, 1);
+	t.is(stats.body.data.activeUsers.daily, 1);
+});
+
+test('Should be able to bisect Android and iOS users', async t => {
+	await sendImpression(t.context.api, {
+		identifier: '47389247',
+		content: 'login',
+		level: 'click',
+		platform: 'ios'
+	});
+	await sendImpression(t.context.api, {
+		identifier: '482379749832',
+		content: 'login',
+		level: 'click',
+		platform: 'android'
+	});
+	const stats = await getStats(t.context.api);
+	t.deepEqual(sortBy(stats.body.data.breakdown.platform, p => p.id), [
+		{
+			id: 'android',
+			count: 1
+		},
+		{
+			id: 'ios',
+			count: 1
+		}
+	]);
+	t.pass();
+});
+
+test('Should be able to breakdown installs and registers', async t => {
+	await sendImpression(t.context.api, {
+		identifier: '123456789',
+		content: 'register',
+		level: 'install',
+		platform: 'ios'
+	});
+	await sendImpression(t.context.api, {
+		identifier: '123456789',
+		content: 'register',
+		level: 'register',
+		platform: 'ios'
+	});
+	const types = await t.context.stats.activityLevels.byContentType('register');
+	t.deepEqual(sortBy(types, t => t.id), [
+		{
+			id: 'install',
+			count: 1
+		},
+		{
+			id: 'register',
+			count: 1
+		}
+	]);
 });

@@ -2,12 +2,13 @@ version: 2
 
 defaults: &defaults
   working_directory: ~/repo
-  docker:
-    - image: circleci/node:10
 
 jobs:
   install:
-    <<: *defaults  
+    <<: *defaults	
+    docker:
+    - image: circleci/node:10
+    - image: mongo:3.4.4
     steps:
       - checkout
       - restore_cache:
@@ -23,9 +24,7 @@ jobs:
           root: ~/repo
           paths: .
   deploy:
-    docker:
-      - image: circleci/node:10
-      - image: mongo:3.4.4
+    <<: *defaults	
     steps:
       - attach_workspace:
           at: ~/repo

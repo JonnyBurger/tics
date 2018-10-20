@@ -23,7 +23,9 @@ jobs:
           root: ~/repo
           paths: .
   deploy:
-    <<: *defaults
+    docker:
+      - image: circleci/node:10
+      - image: mongo:3.4.4
     steps:
       - attach_workspace:
           at: ~/repo

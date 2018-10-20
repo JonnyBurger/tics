@@ -9,12 +9,19 @@ On both your frontend and backend, install the tics library.
 npm i tics
 ```
 
+## How it works
+You mount an Express.js Router, accept requests to your server and save impressions in your database. `tics` also provides a frontend library to send impressions. 
+
 ## Usage
 ### Backend
 
 ```js
+const app = require('express');
 const tics = require('tics/server');
-const {impressions, analytics, stats} = tics({ db: <db_collection> });
+const {impressions, analytics, stats} = tics({ db: 'db_collection' });
+
+app.use('/telemetry', impressions);
+app.use('/analytics', mustBeAdmin, analytics);
 ```
 
 **tics()** takes a MongoDB database collection as an argument. Collections from `mongodb` and `then-mongo` drivers have been tested.
@@ -38,3 +45,43 @@ const {impressions, analytics, stats} = tics({ db: <db_collection> });
         - `stats.activityLevels.byContentId(content_id)` returns the breakdown of the different interactions with one entity of a content. Example reponse: `[{id: 'view', count: 20000, {id: 'click', count: 1000}, {id: 'conversion': 20}}]`,
     - `stats.db` provides raw access to make queries yourself
 
+### React Native
+
+```js
+const tics = require('tics/native');
+const analytics = tics({endpoint: 'https://jonny.io/api/telemetry'});
+
+analytics.impression({
+    content: 'ad',
+    content_id: '3240978',
+    level: 'view',
+    platform: 'ios',
+    identifier: '098324',
+    language: 'de',
+    version: '1.0.0'
+})
+.then(() => { /* ... */})
+```
+
+Pass as the `endpoint` parameter the URL where the `impressions` router is mounted. This is the host of your server plus the route of the impression router.
+
+Returned is an object which contains: 
+
+- `impression`: Makes an impression request to the server. Terminology:
+    - `impression.content`: Type of content. For example `register-screen`, `ad`, `product`,
+    - `impression.content_id` *optional*: Allows to distinguish between different entities of the same content type.
+    - `impression.level`: Type of interaction. For example `view`/ `click`/ `conversion` for sales. Or `install` / `register` for tracking registration conversion. Default: `view`
+    - `impression.platform` *optional*: Operating system of the device. React native client will try to figure it out itself if this option is omitted.
+    - `impression.identifier` *optional*: Identifying string of the user. Multiple impressions by the same user get removed when calculating number of users. React native client will try to use native identifier when omitted.
+    - `impression.language` *optional*: Language of user's device
+    - `impression.version` *optional*: App version number. React Native client will try to find it when this parameter is omitted.
+### Browser
+
+Not yet implemented!
+
+## Author
+
+* [Jonny Burger](https://jonny.io)
+
+## License
+MIT

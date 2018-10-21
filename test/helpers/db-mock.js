@@ -64,7 +64,7 @@ export const destroy = async dbName => {
 						}
 						const dbsToDelete = dbNames.databases
 							.map(db => db.name)
-							.filter(n => n.match(/bestande_test/));
+							.filter(n => n.match(/test/));
 						// eslint-disable-next-line promise/no-promise-in-callback
 						Promise.all(dbsToDelete.map(db => drop(client, db)))
 							.then(resolve)

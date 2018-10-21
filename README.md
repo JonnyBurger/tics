@@ -1,5 +1,5 @@
 # 🎢  tics [![CircleCI](https://circleci.com/gh/JonnyBurger/tics/tree/master.svg?style=svg)](https://circleci.com/gh/JonnyBurger/tics/tree/master)
-> Simple self-hosted analytics ideal Express / React Native stacks
+> Simple self-hosted analytics ideal for Express / React Native stacks
 
 ## 🚥 Install
 

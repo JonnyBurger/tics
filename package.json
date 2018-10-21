@@ -47,5 +47,8 @@
   },
   "peerDependencies": {
     "react-native": "^0.40.0"
+  },
+  "ava": {
+    "serial": true
   }
 }

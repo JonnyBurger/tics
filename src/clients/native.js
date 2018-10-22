@@ -52,7 +52,7 @@ export default ({endpoint}) => {
 					})
 				)
 			});
-			if (response.statusCode !== 200) {
+			if (response.status !== 200) {
 				console.log(response);
 				throw new Error('Request failed ' + response.statusCode);
 			}

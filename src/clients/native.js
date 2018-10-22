@@ -26,7 +26,7 @@ try {
 
 export default ({endpoint}) => {
 	return {
-		impression: ({
+		async impression: ({
 			identifier = defaultIdentifier,
 			platform = defaultPlatform,
 			content,
@@ -35,7 +35,7 @@ export default ({endpoint}) => {
 			language = defaultLanguage,
 			version = defaultVersion
 		}) => {
-			return fetch(`${endpoint}/impression`, {
+			const response = await fetch(`${endpoint}/telemetry/impression`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -52,6 +52,11 @@ export default ({endpoint}) => {
 					})
 				)
 			});
+			if (response.statusCode !== 200) {
+				console.log(response)
+				throw new Error('Request failed ' + response.statusCode)
+			}
+			return response.json();
 		}
 	};
 };

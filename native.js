@@ -1,1 +1,1 @@
-module.exports = require('./src/client');
+module.exports = require('./src/clients/native');

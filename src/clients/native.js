@@ -26,7 +26,7 @@ try {
 
 export default ({endpoint}) => {
 	return {
-		async impression: ({
+		impression: async ({
 			identifier = defaultIdentifier,
 			platform = defaultPlatform,
 			content,
@@ -53,8 +53,8 @@ export default ({endpoint}) => {
 				)
 			});
 			if (response.statusCode !== 200) {
-				console.log(response)
-				throw new Error('Request failed ' + response.statusCode)
+				console.log(response);
+				throw new Error('Request failed ' + response.statusCode);
 			}
 			return response.json();
 		}

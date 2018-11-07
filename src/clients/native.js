@@ -1,4 +1,4 @@
-import {pickBy} from 'lodash';
+const pickBy = require('lodash/pickBy');
 
 let defaultPlatform = null;
 // TODO: Implement way to determine language

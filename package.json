@@ -9,6 +9,8 @@
     "test": "npm run lint && TEST=true ava"
   },
   "files": [
+    "server.js",
+    "native.js",
     "dist"
   ],
   "repository": {

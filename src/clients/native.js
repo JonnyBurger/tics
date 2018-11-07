@@ -24,7 +24,7 @@ try {
 	console.warn('react-native not found. Could not determine platform.');
 }
 
-export default ({endpoint}) => {
+module.exports = ({endpoint}) => {
 	return {
 		impression: async ({
 			identifier = defaultIdentifier,

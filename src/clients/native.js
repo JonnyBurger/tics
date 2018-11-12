@@ -1,4 +1,5 @@
 const pickBy = require('lodash/pickBy');
+const withSession = require('./withSession');
 
 let defaultPlatform = null;
 // TODO: Implement way to determine language
@@ -78,7 +79,6 @@ module.exports = ({endpoint}) => {
 	return {
 		impression,
 		session: async data => {
-			console.log('Updating now');
 			const response = await impression(data);
 			const interval = setInterval(async () => {
 				await update({
@@ -93,6 +93,7 @@ module.exports = ({endpoint}) => {
 					clearInterval(interval);
 				}
 			};
-		}
+		},
+		withSession
 	};
 };

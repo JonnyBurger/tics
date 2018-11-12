@@ -1,5 +1,9 @@
 exports.errorHandler = (response, err) => {
-	const statusCode = err.status || err.name === 'ArgumentError' ? 400 : 500;
+	const statusCode = err.status
+		? err.status
+		: err.name === 'ArgumentError'
+		? 400
+		: 500;
 	response.status(statusCode).json({
 		success: false,
 		error: err.message

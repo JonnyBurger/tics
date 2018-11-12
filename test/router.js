@@ -40,6 +40,16 @@ const sendImpression = (api, body) => {
 	});
 };
 
+const updateImpression = (api, id, body) => {
+	return got.patch(`${api}/telemetry/impression/${id}`, {
+		body,
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		json: true
+	});
+};
+
 const getStats = api => {
 	return got(`${api}/analytics/stats`, {
 		json: true
@@ -144,4 +154,51 @@ test('Should be able to breakdown installs and registers', async t => {
 			count: 1
 		}
 	]);
+});
+
+test('Should not be able to update an impression that does not exist', async t => {
+	try {
+		await updateImpression(t.context.api, '5be9d22ec0f7f9280fe7beb3', {
+			identifier: '123456789'
+		});
+		t.fail();
+	} catch (err) {
+		t.is(err.statusCode, 404);
+	}
+});
+
+test('Should not be able to update an impression that has a different identifier', async t => {
+	const response = await sendImpression(t.context.api, {
+		identifier: '123456789',
+		content: 'register',
+		level: 'install',
+		platform: 'ios'
+	});
+	try {
+		await updateImpression(t.context.api, response.body.data.impression._id, {
+			identifier: '987654321'
+		});
+		t.fail();
+	} catch (err) {
+		t.is(err.statusCode, 400);
+	}
+});
+
+test('Should be able to update an impression with correct parameters', async t => {
+	const response = await sendImpression(t.context.api, {
+		identifier: '123456789',
+		content: 'register',
+		level: 'install',
+		platform: 'ios'
+	});
+	const {body} = await updateImpression(
+		t.context.api,
+		response.body.data.impression._id,
+		{
+			identifier: '123456789'
+		}
+	);
+	t.truthy(body.data.impression.lastUpdated);
+	t.truthy(body.data.impression.date);
+	t.true(body.data.impression.lastUpdated > body.data.impression.date);
 });

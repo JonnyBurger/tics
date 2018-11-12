@@ -2,6 +2,8 @@ const {Router} = require('express');
 const bodyParser = require('body-parser');
 const ow = require('ow');
 const {pickBy} = require('lodash');
+const {ObjectId} = require('mongodb');
+const createError = require('http-errors');
 const {asyncHandler} = require('../handler');
 
 module.exports = ({db}) => {
@@ -42,6 +44,42 @@ module.exports = ({db}) => {
 			const result = await db.insert(impression);
 			return {
 				impression: result
+			};
+		})
+	);
+
+	router.patch(
+		'/impression/:id',
+		asyncHandler(async request => {
+			const {identifier} = request.body;
+			const {id} = request.params;
+			ow(identifier, ow.string);
+			if (id.length !== 24) {
+				throw createError(400, 'Impression ID invalid');
+			}
+			const dbImpression = await db.findOne({
+				_id: new ObjectId(id)
+			});
+			if (!dbImpression) {
+				throw createError(404, 'Impression not found');
+			}
+			if (identifier !== dbImpression.identifier) {
+				throw createError(400, 'Should be the same identifier');
+			}
+			const lastUpdated = Date.now();
+			await db.update(
+				{
+					_id: new ObjectId(id)
+				},
+				{
+					lastUpdated
+				}
+			);
+			return {
+				impression: {
+					...dbImpression,
+					lastUpdated
+				}
 			};
 		})
 	);

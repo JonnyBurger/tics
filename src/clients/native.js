@@ -78,15 +78,20 @@ module.exports = ({endpoint}) => {
 	return {
 		impression,
 		session: async data => {
+			console.log('Updating now');
 			const response = await impression(data);
+			const interval = setInterval(async () => {
+				await update({
+					id: response.data.impression._id
+				});
+				console.log('Updated impression');
+			}, 10000);
 			return {
 				response,
-				clear: setInterval(async () => {
-					await update({
-						id: response.data.impression._id
-					});
-					console.log('Updated impression');
-				}, 10000)
+				clear: () => {
+					console.log('Stopped session');
+					clearInterval(interval);
+				}
 			};
 		}
 	};

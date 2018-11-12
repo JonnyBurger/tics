@@ -39,9 +39,9 @@ module.exports = ({db}) => {
 				direction,
 				date: Date.now()
 			});
-			await db.insert(impression);
+			const result = await db.insert(impression);
 			return {
-				impression
+				impression: result
 			};
 		})
 	);

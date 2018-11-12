@@ -76,6 +76,7 @@ test('Should successfully add an impression', async t => {
 		level: 'click'
 	});
 	t.true(response.body.success);
+	t.is(response.body.data.impression._id.length, 24);
 	const count = await t.context.db.impressions.count();
 	t.is(count, 1);
 });

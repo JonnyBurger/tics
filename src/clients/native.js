@@ -59,6 +59,23 @@ module.exports = ({endpoint}) => {
 		return response.json();
 	};
 
+	const session = async data => {
+		const response = await impression(data);
+		const interval = setInterval(async () => {
+			await update({
+				id: response.data.impression._id
+			});
+			console.log('Updated impression');
+		}, 10000);
+		return {
+			response,
+			clear: () => {
+				console.log('Stopped session');
+				clearInterval(interval);
+			}
+		};
+	};
+
 	const update = async ({identifier = defaultIdentifier, id}) => {
 		const response = await fetch(`${endpoint}/telemetry/impression/${id}`, {
 			method: 'PATCH',
@@ -78,22 +95,7 @@ module.exports = ({endpoint}) => {
 
 	return {
 		impression,
-		session: async data => {
-			const response = await impression(data);
-			const interval = setInterval(async () => {
-				await update({
-					id: response.data.impression._id
-				});
-				console.log('Updated impression');
-			}, 10000);
-			return {
-				response,
-				clear: () => {
-					console.log('Stopped session');
-					clearInterval(interval);
-				}
-			};
-		},
-		withSession
+		session,
+		withSession: withSession(session)
 	};
 };

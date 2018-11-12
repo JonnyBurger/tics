@@ -2,13 +2,12 @@ const React = require('react');
 const {withNavigationFocus} = require('@react-navigation/core');
 const hoistNonReactStatics = require('hoist-non-react-statics');
 
-module.exports = (analytics, options) => Component => {
+module.exports = session => options => Component => {
 	class Hoc extends React.Component {
 		async startSession() {
 			try {
-				const session = await analytics.session(options);
 				console.log('started session');
-				this.session = session;
+				this.session = await session(options);
 			} catch (err) {
 				console.log(err);
 			}

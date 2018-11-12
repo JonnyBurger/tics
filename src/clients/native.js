@@ -60,7 +60,7 @@ module.exports = ({endpoint}) => {
 
 	const update = async ({identifier = defaultIdentifier, id}) => {
 		const response = await fetch(`${endpoint}/telemetry/impression/${id}`, {
-			method: 'POST',
+			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json'
 			},

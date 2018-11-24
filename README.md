@@ -56,7 +56,9 @@ await stats.activeUsers.daily() // => 29
 ### React Native
 
 ```js
+// use require('tics/expo') for expo!
 const tics = require('tics/native');
+
 const analytics = tics({endpoint: 'https://jonny.io/api/telemetry'});
 
 analytics.impression({

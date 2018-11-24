@@ -7,6 +7,17 @@ let defaultIdentifier = null;
 let defaultVersion = null;
 
 try {
+	const Expo = require('expo');
+	const {installationId, manifest} = Expo.Constants;
+	defaultVersion = manifest.version;
+	defaultIdentifier = installationId;
+} catch (err) {
+	console.warn(
+		'Expo could not be found. Could not determine version number and identifier.'
+	);
+}
+
+try {
 	const {Platform} = require('react-native');
 	defaultPlatform = Platform.OS;
 } catch (err) {

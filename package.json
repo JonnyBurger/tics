@@ -1,6 +1,6 @@
 {
   "name": "tics",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "description": "Simple analytics",
   "main": "index.js",
   "scripts": {

@@ -72,7 +72,7 @@ module.exports = ({db}) => {
 					_id: new ObjectId(id)
 				},
 				{
-					lastUpdated
+					$set: {lastUpdated}
 				}
 			);
 			return {

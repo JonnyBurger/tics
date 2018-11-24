@@ -44,6 +44,7 @@ module.exports = ({
 		const response = await impression(data);
 		const interval = setInterval(async () => {
 			await update({
+				identifier: data.identifier,
 				id: response.data.impression._id
 			});
 			console.log('Updated impression');

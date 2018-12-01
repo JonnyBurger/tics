@@ -1,11 +1,13 @@
 const {Router} = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const ms = require('ms');
 const {asyncHandler} = require('../handler');
 const {getUsers, getBreakdown} = require('../methods');
 
 module.exports = ({db}) => {
 	const router = new Router();
+	router.use(cors());
 	router.use(bodyParser.json());
 	router.get(
 		'/stats',

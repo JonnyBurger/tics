@@ -16,8 +16,10 @@ module.exports = session => options => Component => {
 			this.startSession();
 		}
 		endSession() {
-			this.session.clear();
-			this.session = null;
+			if (this.session) {
+				this.session.clear();
+				this.session = null;
+			}
 		}
 		componentDidUpdate(prevProps) {
 			if (!this.props.isFocused && prevProps.isFocused && this.session) {
@@ -28,8 +30,10 @@ module.exports = session => options => Component => {
 			}
 		}
 		componentWillUnmount() {
-			this.session.clear();
-			this.session = null;
+			if (this.session) {
+				this.session.clear();
+				this.session = null;
+			}
 		}
 
 		render() {

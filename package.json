@@ -11,6 +11,7 @@
   "files": [
     "server.js",
     "native.js",
+    "expo.js",
     "dist"
   ],
   "repository": {

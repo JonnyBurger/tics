@@ -84,7 +84,9 @@ module.exports = ({db}) => {
 			const impressions = await getImpressions(db, query);
 			const totalTimeSpent = await getTotalTimeSpent(db, query);
 			const averageSession =
-				totalTimeSpent === 0 ? 0 : Math.round(totalTimeSpent / sessions);
+				totalTimeSpent === 0
+					? 0
+					: Math.round(totalTimeSpent / (sessions + impressions));
 
 			return {
 				uniqueUsers,

@@ -15,7 +15,11 @@ exports.getUsers = async (db, query) => {
 };
 
 exports.getSessions = async (db, query) => {
-	return db.count(query);
+	return db.count({...query, lastUpdated: {$exists: true}});
+};
+
+exports.getImpressions = async (db, query) => {
+	return db.count({...query, lastUpdated: {$exists: false}});
 };
 
 exports.getTotalTimeSpent = async (db, query) => {

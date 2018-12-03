@@ -10,6 +10,7 @@ const {
 	getBreakdown,
 	getContent,
 	getSessions,
+	getImpressions,
 	getTotalTimeSpent,
 	getContentEngagementLevel
 } = require('../methods');
@@ -80,6 +81,7 @@ module.exports = ({db}) => {
 			});
 			const uniqueUsers = await getUsers(db, query);
 			const sessions = await getSessions(db, query);
+			const impressions = await getImpressions(db, query);
 			const totalTimeSpent = await getTotalTimeSpent(db, query);
 			const averageSession =
 				totalTimeSpent === 0 ? 0 : Math.round(totalTimeSpent / sessions);
@@ -87,6 +89,7 @@ module.exports = ({db}) => {
 			return {
 				uniqueUsers,
 				sessions,
+				impressions,
 				totalTimeSpent,
 				averageSession
 			};

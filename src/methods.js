@@ -14,6 +14,21 @@ exports.getUsers = async (db, query) => {
 	return result.count;
 };
 
+exports.getSessions = async (db, query) => {
+	return db.countDocuments(query);
+};
+
+exports.getTotalTimeSpent = async (db, query) => {
+	const [result] = await db
+		.aggregate([
+			{$match: {...query, lastUpdated: {$exists: true}}},
+			{$project: {time: {$subtract: ['$lastUpdated', '$date']}}},
+			{$group: {_id: null, count: {$sum: '$time'}}}
+		])
+		.toArray();
+	return result ? result.count : null;
+};
+
 exports.getBreakdown = async (db, field) => {
 	const aggregated = await db
 		.aggregate([
@@ -57,4 +72,14 @@ exports.getActivityLevelsById = async (db, content_id) => {
 		...a,
 		id: _id
 	}));
+};
+
+exports.getContent = async db => {
+	return db.distinct('content');
+};
+
+exports.getContentEngagementLevel = async (db, content) => {
+	return db.distinct('level', {
+		content
+	});
 };

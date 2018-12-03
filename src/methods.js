@@ -15,7 +15,7 @@ exports.getUsers = async (db, query) => {
 };
 
 exports.getSessions = async (db, query) => {
-	return db.countDocuments(query);
+	return db.count(query);
 };
 
 exports.getTotalTimeSpent = async (db, query) => {

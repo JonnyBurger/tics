@@ -6,8 +6,8 @@ module.exports = session => options => Component => {
 	class Hoc extends React.Component {
 		async startSession() {
 			try {
-				console.log('started session');
 				this.session = await session(options);
+				console.log('started session');
 			} catch (err) {
 				console.log(err);
 			}

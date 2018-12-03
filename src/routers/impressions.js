@@ -43,7 +43,7 @@ module.exports = ({db}) => {
 			});
 			const result = await db.insert(impression);
 			return {
-				impression: result
+				impression: result.ops ? result.ops[0] : result
 			};
 		})
 	);

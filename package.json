@@ -59,7 +59,7 @@
     "eslint-plugin-react-native": "^3.5.0"
   },
   "peerDependencies": {
-    "react-native": "^0.40.0"
+    "react-native": ">0.40.0"
   },
   "ava": {
     "serial": true

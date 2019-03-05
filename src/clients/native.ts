@@ -4,7 +4,7 @@ import {Platform, Language, Identifier, Version} from '../types';
 let defaultPlatform: Platform = null;
 // TODO: Implement way to determine language
 let defaultLanguage: Language = 'en';
-let defaultIdentifier: Identifier = null;
+let defaultIdentifier: Identifier = '';
 let defaultVersion: Version = null;
 
 try {

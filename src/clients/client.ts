@@ -10,7 +10,7 @@ import {
 } from '../types';
 
 export default ({
-	defaultIdentifier = null,
+	defaultIdentifier = '',
 	defaultPlatform = null,
 	defaultLanguage = null,
 	defaultVersion = null

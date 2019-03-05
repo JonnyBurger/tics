@@ -1,11 +1,11 @@
-type TimeRange = 'yearly' | 'monthly' | 'weekly' | 'daily' | 'hourly';
+export type TimeRange = 'yearly' | 'monthly' | 'weekly' | 'daily' | 'hourly';
 
-type Platform = 'ios' | 'android' | 'web' | string | null;
-type Language = 'de' | 'en' | 'it' | string | null;
-type Identifier = string | null;
-type Version = string | null;
+export type Platform = 'ios' | 'android' | 'web' | string | null;
+export type Language = 'de' | 'en' | 'it' | string | null;
+export type Identifier = string | null;
+export type Version = string | null;
 
-type Impression = {
+export type Impression = {
 	identifier: Identifier;
 	platform: Platform;
 	content: string;
@@ -17,15 +17,15 @@ type Impression = {
 	lastUpdated?: number;
 };
 
-type SessionResponse = {
+export type SessionResponse = {
 	response: any;
 	clear: () => void;
 };
 
-type Session = (data: Impression) => Promise<SessionResponse>;
+export type Session = (data: Impression) => Promise<SessionResponse>;
 
-type PlainObject = {[name: string]: any};
-type Breakdown = {
+export type PlainObject = {[name: string]: any};
+export type Breakdown = {
 	count: number;
 	id: string;
 }[];

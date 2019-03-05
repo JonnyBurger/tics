@@ -1,4 +1,5 @@
 import client from './client';
+import {Platform, Language, Identifier, Version} from '../types';
 
 let defaultPlatform: Platform = null;
 // TODO: Implement way to determine language

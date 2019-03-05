@@ -1,5 +1,13 @@
 import {pickBy} from 'lodash';
 import withSession from './withSession';
+import {
+	Identifier,
+	Platform,
+	Language,
+	Version,
+	Impression,
+	Session
+} from '../types';
 
 export default ({
 	defaultIdentifier = null,

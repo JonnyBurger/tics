@@ -1,4 +1,5 @@
 import React, {Attributes} from 'react';
+import {Session, Impression, SessionResponse} from '../types';
 const {withNavigationFocus} = require('@react-navigation/core');
 const hoistNonReactStatics = require('hoist-non-react-statics');
 

@@ -1,4 +1,5 @@
 import {Request, Response, NextFunction} from 'express';
+import {Language} from './types';
 
 export const errorHandler = (
 	response: Response,

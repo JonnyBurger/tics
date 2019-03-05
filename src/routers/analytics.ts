@@ -14,7 +14,8 @@ import {
 	getTotalTimeSpent,
 	getContentEngagementLevel
 } from '../methods';
-import {Db, Collection} from 'mongodb';
+import {Collection} from 'mongodb';
+import {TimeRange, Platform, Version, Breakdown} from '../types';
 
 const getDate = (date: TimeRange) => {
 	if (date === 'yearly') {

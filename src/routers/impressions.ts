@@ -5,6 +5,7 @@ import {pickBy} from 'lodash';
 import {ObjectId, Collection} from 'mongodb';
 import createError from 'http-errors';
 import {asyncHandler} from '../handler';
+import {Impression} from '../types';
 
 export default ({db}: {db: Collection}) => {
 	const router = Router();

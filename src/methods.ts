@@ -1,4 +1,5 @@
 import {Collection} from 'mongodb';
+import {PlainObject, Breakdown} from './types';
 
 export const getUsers = async (db: Collection, query?: PlainObject) => {
 	const [result] = await db
@@ -20,14 +21,14 @@ export const getSessions = async (
 	db: Collection,
 	query: PlainObject
 ): Promise<number> => {
-	return db.count({...query, lastUpdated: {$exists: true}});
+	return db.countDocuments({...query, lastUpdated: {$exists: true}});
 };
 
 export const getImpressions = async (
 	db: Collection,
 	query: PlainObject
 ): Promise<number> => {
-	return db.count({...query, lastUpdated: {$exists: false}});
+	return db.countDocuments({...query, lastUpdated: {$exists: false}});
 };
 
 export const getTotalTimeSpent = async (

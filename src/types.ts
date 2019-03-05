@@ -2,7 +2,7 @@ export type TimeRange = 'yearly' | 'monthly' | 'weekly' | 'daily' | 'hourly';
 
 export type Platform = 'ios' | 'android' | 'web' | string | null;
 export type Language = 'de' | 'en' | 'it' | string | null;
-export type Identifier = string | null;
+export type Identifier = string;
 export type Version = string | null;
 
 export type Impression = {

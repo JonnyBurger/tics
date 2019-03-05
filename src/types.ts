@@ -9,11 +9,11 @@ export type Impression = {
 	identifier: Identifier;
 	platform: Platform;
 	content: string;
-	content_id: string | null;
+	content_id?: string | null;
 	level: 'VIEW' | string;
 	language: Language;
 	version: string | null;
-	direction: string;
+	direction?: string;
 	lastUpdated?: number;
 };
 

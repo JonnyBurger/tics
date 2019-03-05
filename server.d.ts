@@ -1,2 +1,2 @@
-import types from './dist/server.d.ts';
+import types from './dist/server';
 export default types;

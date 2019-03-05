@@ -12,7 +12,11 @@
   "files": [
     "dist",
     "server.js",
-    "server.d.ts"
+    "server.d.ts",
+    "expo.js",
+    "expo.d.ts",
+    "native.js",
+    "native.d.ts"
   ],
   "repository": {
     "type": "git",

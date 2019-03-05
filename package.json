@@ -1,6 +1,6 @@
 {
   "name": "tics",
-  "version": "2.0.0-alpha.6",
+  "version": "2.0.0-alpha.7",
   "description": "Simple analytics",
   "main": "dist",
   "scripts": {
@@ -11,7 +11,8 @@
   },
   "files": [
     "dist",
-    "server.js"
+    "server.js",
+    "server.d.ts"
   ],
   "repository": {
     "type": "git",

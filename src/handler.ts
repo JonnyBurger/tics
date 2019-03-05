@@ -1,4 +1,9 @@
-exports.errorHandler = (response, err) => {
+import {Request, Response, NextFunction} from 'express';
+
+export const errorHandler = (
+	response: Response,
+	err: Error & {status?: number}
+) => {
 	const statusCode = err.status
 		? err.status
 		: err.name === 'ArgumentError'
@@ -10,15 +15,17 @@ exports.errorHandler = (response, err) => {
 	});
 };
 
-exports.successHandler = (response, data) => {
+export const successHandler = (response: Response, data: any) => {
 	response.json({
 		success: true,
 		data
 	});
 };
 
-exports.asyncHandler = fn => {
-	return async function(request, response) {
+export const asyncHandler = <Req, Res>(
+	fn: (req: Request & Req, res: Response) => Promise<Res>
+) => {
+	return async function(request: Request & Req, response: Response) {
 		try {
 			const data = await fn(request, response);
 			exports.successHandler(response, data);

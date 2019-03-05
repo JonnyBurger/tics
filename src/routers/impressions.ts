@@ -1,13 +1,13 @@
-const {Router} = require('express');
-const bodyParser = require('body-parser');
-const ow = require('ow');
-const {pickBy} = require('lodash');
-const {ObjectId} = require('mongodb');
-const createError = require('http-errors');
-const {asyncHandler} = require('../handler');
+import {Router} from 'express';
+import bodyParser from 'body-parser';
+import ow from 'ow';
+import {pickBy} from 'lodash';
+import {ObjectId, Collection} from 'mongodb';
+import createError from 'http-errors';
+import {asyncHandler} from '../handler';
 
-module.exports = ({db}) => {
-	const router = new Router();
+export default ({db}: {db: Collection}) => {
+	const router = Router();
 	router.use(bodyParser.json());
 	router.post(
 		'/impression',

@@ -1,8 +1,10 @@
-export const getUsers = async (db, query) => {
+import {Collection} from 'mongodb';
+
+export const getUsers = async (db: Collection, query?: PlainObject) => {
 	const [result] = await db
 		.aggregate(
 			[
-				query ? {$match: query} : null,
+				query ? {$match: query} : {},
 				{$group: {_id: '$identifier'}},
 				{$group: {_id: 1, count: {$sum: 1}}}
 			].filter(Boolean)
@@ -14,15 +16,24 @@ export const getUsers = async (db, query) => {
 	return result.count;
 };
 
-export const getSessions = async (db, query) => {
+export const getSessions = async (
+	db: Collection,
+	query: PlainObject
+): Promise<number> => {
 	return db.count({...query, lastUpdated: {$exists: true}});
 };
 
-export const getImpressions = async (db, query) => {
+export const getImpressions = async (
+	db: Collection,
+	query: PlainObject
+): Promise<number> => {
 	return db.count({...query, lastUpdated: {$exists: false}});
 };
 
-export const getTotalTimeSpent = async (db, query) => {
+export const getTotalTimeSpent = async (
+	db: Collection,
+	query: PlainObject
+): Promise<number> => {
 	const [result] = await db
 		.aggregate([
 			{$match: {...query, lastUpdated: {$exists: true}}},
@@ -33,7 +44,10 @@ export const getTotalTimeSpent = async (db, query) => {
 	return result ? result.count : null;
 };
 
-export const getBreakdown = async (db, field) => {
+export const getBreakdown = async (
+	db: Collection,
+	field: string
+): Promise<Breakdown> => {
 	const aggregated = await db
 		.aggregate([
 			{$match: {[field]: {$exists: true}}},
@@ -42,13 +56,13 @@ export const getBreakdown = async (db, field) => {
 			{$project: {[field]: 1, count: {$size: '$users'}}}
 		])
 		.toArray();
-	return aggregated.map(({_id, ...a}) => ({
+	return aggregated.map(({_id, ...a}: {_id: string; count: number}) => ({
 		...a,
 		id: _id
 	}));
 };
 
-export const getActivityLevels = async (db, content) => {
+export const getActivityLevels = async (db: Collection, content: string) => {
 	const aggregated = await db
 		.aggregate([
 			{$match: {content}},
@@ -57,13 +71,16 @@ export const getActivityLevels = async (db, content) => {
 			{$project: {level: 1, count: {$size: '$users'}}}
 		])
 		.toArray();
-	return aggregated.map(({_id, ...a}) => ({
+	return aggregated.map(({_id, ...a}: any) => ({
 		...a,
 		id: _id
 	}));
 };
 
-export const getActivityLevelsById = async (db, content_id) => {
+export const getActivityLevelsById = async (
+	db: Collection,
+	content_id: string
+) => {
 	const aggregated = await db
 		.aggregate([
 			{$match: {content_id}},
@@ -72,17 +89,20 @@ export const getActivityLevelsById = async (db, content_id) => {
 			{$project: {level: 1, count: {$size: '$users'}}}
 		])
 		.toArray();
-	return aggregated.map(({_id, ...a}) => ({
+	return aggregated.map(({_id, ...a}: any) => ({
 		...a,
 		id: _id
 	}));
 };
 
-export const getContent = async db => {
-	return db.distinct('content');
+export const getContent = async (db: Collection): Promise<string[]> => {
+	return db.distinct('content', {});
 };
 
-export const getContentEngagementLevel = async (db, content) => {
+export const getContentEngagementLevel = async (
+	db: Collection,
+	content: string
+): Promise<string[]> => {
 	return db.distinct('level', {
 		content
 	});

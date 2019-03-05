@@ -14,7 +14,7 @@ import {
 	getTotalTimeSpent,
 	getContentEngagementLevel
 } from '../methods';
-import {Db} from 'mongodb';
+import {Db, Collection} from 'mongodb';
 
 const getDate = (date: TimeRange) => {
 	if (date === 'yearly') {
@@ -35,13 +35,25 @@ const getDate = (date: TimeRange) => {
 	return null;
 };
 
-export default ({db}: {db: Db}) => {
+export default ({db}: {db: Collection}) => {
 	const router = Router();
 	router.use(cors());
 	router.use(bodyParser.json());
 	router.get(
 		'/stats',
-		asyncHandler(async () => {
+		asyncHandler<
+			{},
+			{
+				activeUsers: {
+					daily: number;
+					weekly: number;
+					monthly: number;
+				};
+				breakdown: {
+					platform: any;
+				};
+			}
+		>(async () => {
 			const dailyActiveUsers = await getUsers(db, {
 				date: {$gt: Date.now() - ms('1d')}
 			});
@@ -66,7 +78,16 @@ export default ({db}: {db: Db}) => {
 	);
 	router.get(
 		'/query',
-		asyncHandler(async request => {
+		asyncHandler<
+			{},
+			{
+				uniqueUsers: number;
+				sessions: number;
+				impressions: number;
+				totalTimeSpent: number;
+				averageSession: number;
+			}
+		>(async request => {
 			const {date, content, platform, level, version} = request.query;
 			ow(date, ow.any(ow.string, ow.nullOrUndefined));
 			ow(content, ow.any(ow.string, ow.nullOrUndefined));
@@ -100,7 +121,7 @@ export default ({db}: {db: Db}) => {
 	);
 	router.get(
 		'/content',
-		asyncHandler(async () => {
+		asyncHandler<{}, {content: string[]}>(async () => {
 			const content = await getContent(db);
 			return {
 				content
@@ -109,7 +130,7 @@ export default ({db}: {db: Db}) => {
 	);
 	router.get(
 		'/content/:id',
-		asyncHandler(async request => {
+		asyncHandler<{}, {levels: string[]}>(async request => {
 			const {id} = request.params;
 			const levels = await getContentEngagementLevel(db, id);
 			return {
@@ -119,8 +140,8 @@ export default ({db}: {db: Db}) => {
 	);
 	router.get(
 		'/platforms',
-		asyncHandler(async () => {
-			const platforms = await db.distinct('platform');
+		asyncHandler<{}, {platforms: string[]}>(async () => {
+			const platforms = await db.distinct('platform', {});
 			return {
 				platforms
 			};
@@ -128,8 +149,8 @@ export default ({db}: {db: Db}) => {
 	);
 	router.get(
 		'/versions',
-		asyncHandler(async () => {
-			const versions = await db.distinct('version');
+		asyncHandler<{}, {versions: string[]}>(async () => {
+			const versions = await db.distinct('version', {});
 			return {
 				versions
 			};
@@ -137,7 +158,7 @@ export default ({db}: {db: Db}) => {
 	);
 	router.get(
 		'/platforms/breakdown',
-		asyncHandler(async () => {
+		asyncHandler<{}, {platforms: Breakdown}>(async () => {
 			const platforms = await getBreakdown(db, 'platform');
 			return {
 				platforms

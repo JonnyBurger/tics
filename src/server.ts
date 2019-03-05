@@ -1,14 +1,16 @@
-const ms = require('ms');
-const impressionRouter = require('./routers/impressions');
-const analyticsRouter = require('./routers/analytics');
-const {
+import {Db, Collection} from 'mongodb';
+
+import ms from 'ms';
+import impressionRouter from './routers/impressions';
+import analyticsRouter from './routers/analytics';
+import {
 	getUsers,
 	getBreakdown,
 	getActivityLevels,
 	getActivityLevelsById
-} = require('./methods');
+} from './methods';
 
-module.exports = ({db}) => {
+module.exports = ({db}: {db: Collection}) => {
 	const impressions = impressionRouter({db});
 	const analytics = analyticsRouter({db});
 	const stats = {
@@ -31,10 +33,10 @@ module.exports = ({db}) => {
 		languages: () => getBreakdown(db, 'language'),
 		versions: () => getBreakdown(db, 'version'),
 		contents: () => getBreakdown(db, 'content'),
-		breakDown: field => getBreakdown(db, field),
+		breakDown: (field: string) => getBreakdown(db, field),
 		activityLevels: {
-			byContentType: content => getActivityLevels(db, content),
-			byContentId: content_id => getActivityLevelsById(db, content_id)
+			byContentType: (content: string) => getActivityLevels(db, content),
+			byContentId: (content_id: string) => getActivityLevelsById(db, content_id)
 		},
 		db
 	};

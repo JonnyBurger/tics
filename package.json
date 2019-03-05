@@ -11,8 +11,11 @@
   },
   "files": [
     "server.js",
+    "server.d.ts",
     "native.js",
+    "native.d.ts",
     "expo.js",
+    "expo.d.ts",
     "dist"
   ],
   "repository": {

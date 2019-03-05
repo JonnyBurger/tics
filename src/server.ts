@@ -1,4 +1,4 @@
-import {Db, Collection} from 'mongodb';
+import {Collection} from 'mongodb';
 
 import ms from 'ms';
 import impressionRouter from './routers/impressions';
@@ -10,7 +10,7 @@ import {
 	getActivityLevelsById
 } from './methods';
 
-module.exports = ({db}: {db: Collection}) => {
+export default ({db}: {db: Collection}) => {
 	const impressions = impressionRouter({db});
 	const analytics = analyticsRouter({db});
 	const stats = {

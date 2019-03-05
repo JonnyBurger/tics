@@ -1,4 +1,4 @@
-const client = require('./client');
+import client from './client';
 
 let defaultPlatform = null;
 // TODO: Implement way to determine language
@@ -24,7 +24,7 @@ try {
 	console.warn('react-native not found. Could not determine platform.');
 }
 
-module.exports = client({
+export default client({
 	defaultPlatform,
 	defaultIdentifier,
 	defaultLanguage,

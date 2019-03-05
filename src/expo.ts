@@ -1,1 +1,3 @@
-module.exports = require('./clients/expo');
+import expo from './clients/expo';
+
+export default expo;

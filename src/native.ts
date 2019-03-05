@@ -1,1 +1,2 @@
-module.exports = require('./clients/native');
+import native from './clients/native';
+export default native;

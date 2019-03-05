@@ -1,11 +1,11 @@
-const {Router} = require('express');
-const ow = require('ow');
-const bodyParser = require('body-parser');
-const {pickBy} = require('lodash');
-const cors = require('cors');
-const ms = require('ms');
-const {asyncHandler} = require('../handler');
-const {
+import ms from 'ms';
+import {Router} from 'express';
+import ow from 'ow';
+import bodyParser from 'body-parser';
+import {pickBy} from 'lodash';
+import cors from 'cors';
+import {asyncHandler} from '../handler';
+import {
 	getUsers,
 	getBreakdown,
 	getContent,
@@ -13,9 +13,10 @@ const {
 	getImpressions,
 	getTotalTimeSpent,
 	getContentEngagementLevel
-} = require('../methods');
+} from '../methods';
+import {Db} from 'mongodb';
 
-const getDate = date => {
+const getDate = (date: TimeRange) => {
 	if (date === 'yearly') {
 		return {$gt: Date.now() - ms('1y')};
 	}
@@ -34,8 +35,8 @@ const getDate = date => {
 	return null;
 };
 
-module.exports = ({db}) => {
-	const router = new Router();
+export default ({db}: {db: Db}) => {
+	const router = Router();
 	router.use(cors());
 	router.use(bodyParser.json());
 	router.get(

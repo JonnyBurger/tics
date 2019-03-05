@@ -1,4 +1,4 @@
-exports.getUsers = async (db, query) => {
+export const getUsers = async (db, query) => {
 	const [result] = await db
 		.aggregate(
 			[
@@ -14,15 +14,15 @@ exports.getUsers = async (db, query) => {
 	return result.count;
 };
 
-exports.getSessions = async (db, query) => {
+export const getSessions = async (db, query) => {
 	return db.count({...query, lastUpdated: {$exists: true}});
 };
 
-exports.getImpressions = async (db, query) => {
+export const getImpressions = async (db, query) => {
 	return db.count({...query, lastUpdated: {$exists: false}});
 };
 
-exports.getTotalTimeSpent = async (db, query) => {
+export const getTotalTimeSpent = async (db, query) => {
 	const [result] = await db
 		.aggregate([
 			{$match: {...query, lastUpdated: {$exists: true}}},
@@ -33,7 +33,7 @@ exports.getTotalTimeSpent = async (db, query) => {
 	return result ? result.count : null;
 };
 
-exports.getBreakdown = async (db, field) => {
+export const getBreakdown = async (db, field) => {
 	const aggregated = await db
 		.aggregate([
 			{$match: {[field]: {$exists: true}}},
@@ -48,7 +48,7 @@ exports.getBreakdown = async (db, field) => {
 	}));
 };
 
-exports.getActivityLevels = async (db, content) => {
+export const getActivityLevels = async (db, content) => {
 	const aggregated = await db
 		.aggregate([
 			{$match: {content}},
@@ -63,7 +63,7 @@ exports.getActivityLevels = async (db, content) => {
 	}));
 };
 
-exports.getActivityLevelsById = async (db, content_id) => {
+export const getActivityLevelsById = async (db, content_id) => {
 	const aggregated = await db
 		.aggregate([
 			{$match: {content_id}},
@@ -78,11 +78,11 @@ exports.getActivityLevelsById = async (db, content_id) => {
 	}));
 };
 
-exports.getContent = async db => {
+export const getContent = async db => {
 	return db.distinct('content');
 };
 
-exports.getContentEngagementLevel = async (db, content) => {
+export const getContentEngagementLevel = async (db, content) => {
 	return db.distinct('level', {
 		content
 	});

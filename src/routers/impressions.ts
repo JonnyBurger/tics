@@ -11,7 +11,12 @@ export default ({db}: {db: Collection}) => {
 	router.use(bodyParser.json());
 	router.post(
 		'/impression',
-		asyncHandler(async request => {
+		asyncHandler<
+			{
+				body: Impression;
+			},
+			{impression: Impression}
+		>(async request => {
 			const {
 				identifier,
 				content,
@@ -50,7 +55,19 @@ export default ({db}: {db: Collection}) => {
 
 	router.patch(
 		'/impression/:id',
-		asyncHandler(async request => {
+		asyncHandler<
+			{
+				body: {
+					identifier: string;
+				};
+				params: {
+					id: string;
+				};
+			},
+			{
+				impression: Impression;
+			}
+		>(async request => {
 			const {identifier} = request.body;
 			const {id} = request.params;
 			ow(identifier, ow.string);

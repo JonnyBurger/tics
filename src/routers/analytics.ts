@@ -79,7 +79,15 @@ export default ({db}: {db: Collection}) => {
 	router.get(
 		'/query',
 		asyncHandler<
-			{},
+			{
+				query: {
+					date: TimeRange;
+					content: string;
+					platform: Platform;
+					level: string;
+					version: Version;
+				};
+			},
 			{
 				uniqueUsers: number;
 				sessions: number;
@@ -130,7 +138,14 @@ export default ({db}: {db: Collection}) => {
 	);
 	router.get(
 		'/content/:id',
-		asyncHandler<{}, {levels: string[]}>(async request => {
+		asyncHandler<
+			{
+				params: {
+					id: string;
+				};
+			},
+			{levels: string[]}
+		>(async request => {
 			const {id} = request.params;
 			const levels = await getContentEngagementLevel(db, id);
 			return {

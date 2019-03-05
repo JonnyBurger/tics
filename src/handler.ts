@@ -22,8 +22,15 @@ export const successHandler = (response: Response, data: any) => {
 	});
 };
 
+type ExpressRequest = Pick<
+	Request,
+	Exclude<keyof Request, 'body' | 'params' | 'query' | 'user'>
+> & {
+	language?: Language;
+};
+
 export const asyncHandler = <Req, Res>(
-	fn: (req: Request & Req, res: Response) => Promise<Res>
+	fn: (req: ExpressRequest & Req, res: Response) => Promise<Res>
 ) => {
 	return async function(request: Request & Req, response: Response) {
 		try {

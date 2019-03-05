@@ -13,6 +13,8 @@ type Impression = {
 	level: 'VIEW' | string;
 	language: Language;
 	version: string | null;
+	direction: string;
+	lastUpdated?: number;
 };
 
 type SessionResponse = {

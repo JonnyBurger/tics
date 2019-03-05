@@ -1,16 +1,17 @@
 {
   "name": "tics",
-  "version": "2.0.0-alpha.5",
+  "version": "2.0.0-alpha.6",
   "description": "Simple analytics",
   "main": "dist",
   "scripts": {
     "lint": "eslint '**/*.js' --ignore-path .gitignore",
-    "test": "eslint '*.ts' 'src/*.ts' && TEST=true ava",
+    "test": "eslint  'src/*.ts' && TEST=true ava",
     "build": "tsc",
     "prepare": "npm run build"
   },
   "files": [
-    "dist"
+    "dist",
+    "server.js"
   ],
   "repository": {
     "type": "git",

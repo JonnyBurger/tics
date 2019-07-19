@@ -9,34 +9,37 @@ import {
 	getActivityLevels,
 	getActivityLevelsById
 } from './methods';
+import {Breakdown} from './types';
 
-export default ({db}: {db: Collection}) => {
+export default ({db}: {db: Collection}): any => {
 	const impressions = impressionRouter({db});
 	const analytics = analyticsRouter({db});
 	const stats = {
-		dau: () =>
+		dau: (): Promise<number> =>
 			getUsers(db, {
 				date: {$gt: Date.now() - ms('1d')}
 			}),
-		wau: () =>
+		wau: (): Promise<number> =>
 			getUsers(db, {
 				date: {$gt: Date.now() - ms('7d')}
 			}),
-		mau: () =>
+		mau: (): Promise<number> =>
 			getUsers(db, {
 				date: {$gt: Date.now() - ms('30d')}
 			}),
-		userCount: (query = {}) => {
-			getUsers(db, query);
+		userCount: (query = {}): Promise<number> => {
+			return getUsers(db, query);
 		},
-		platforms: () => getBreakdown(db, 'platform'),
-		languages: () => getBreakdown(db, 'language'),
-		versions: () => getBreakdown(db, 'version'),
-		contents: () => getBreakdown(db, 'content'),
-		breakDown: (field: string) => getBreakdown(db, field),
+		platforms: (): Promise<Breakdown> => getBreakdown(db, 'platform'),
+		languages: (): Promise<Breakdown> => getBreakdown(db, 'language'),
+		versions: (): Promise<Breakdown> => getBreakdown(db, 'version'),
+		contents: (): Promise<Breakdown> => getBreakdown(db, 'content'),
+		breakDown: (field: string): Promise<Breakdown> => getBreakdown(db, field),
 		activityLevels: {
-			byContentType: (content: string) => getActivityLevels(db, content),
-			byContentId: (content_id: string) => getActivityLevelsById(db, content_id)
+			byContentType: (content: string): Promise<any> =>
+				getActivityLevels(db, content),
+			byContentId: (content_id: string): Promise<any> =>
+				getActivityLevelsById(db, content_id)
 		},
 		db
 	};

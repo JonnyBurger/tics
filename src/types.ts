@@ -5,7 +5,7 @@ export type Language = 'de' | 'en' | 'it' | string | null;
 export type Identifier = string;
 export type Version = string | null;
 
-export type Impression = {
+export interface Impression {
 	identifier: Identifier;
 	platform: Platform;
 	content: string;
@@ -15,16 +15,18 @@ export type Impression = {
 	version: string | null;
 	direction?: string;
 	lastUpdated?: number;
-};
+}
 
-export type SessionResponse = {
+export interface SessionResponse {
 	response: any;
 	clear: () => void;
-};
+}
 
 export type Session = (data: Impression) => Promise<SessionResponse>;
 
-export type PlainObject = {[name: string]: any};
+export interface PlainObject {
+	[name: string]: any;
+}
 export type Breakdown = {
 	count: number;
 	id: string;

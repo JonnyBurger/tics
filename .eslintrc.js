@@ -1,3 +1,6 @@
 module.exports = {
-	extends: '@jonny'
+	extends: '@jonny',
+	rules: {
+		'@typescript-eslint/no-explicit-any': 'off'
+	}
 };

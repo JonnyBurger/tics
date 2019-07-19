@@ -1,10 +1,10 @@
-import {Request, Response, NextFunction} from 'express';
+import {Request, Response} from 'express';
 import {Language} from './types';
 
 export const errorHandler = (
 	response: Response,
 	err: Error & {status?: number}
-) => {
+): void => {
 	const statusCode = err.status
 		? err.status
 		: err.name === 'ArgumentError'
@@ -16,7 +16,7 @@ export const errorHandler = (
 	});
 };
 
-export const successHandler = (response: Response, data: any) => {
+export const successHandler = (response: Response, data: any): void => {
 	response.json({
 		success: true,
 		data
@@ -32,8 +32,11 @@ type ExpressRequest = Pick<
 
 export const asyncHandler = <Req, Res>(
 	fn: (req: ExpressRequest & Req, res: Response) => Promise<Res>
-) => {
-	return async function(request: Request & Req, response: Response) {
+): ((request: Request & Req, response: Response) => Promise<void>) => {
+	return async function(
+		request: Request & Req,
+		response: Response
+	): Promise<void> {
 		try {
 			const data = await fn(request, response);
 			exports.successHandler(response, data);

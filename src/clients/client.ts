@@ -1,13 +1,27 @@
 import {pickBy} from 'lodash';
-import withSession from './withSession';
 import {
 	Identifier,
 	Platform,
 	Language,
 	Version,
 	Impression,
-	Session
+	Session,
+	PlainObject
 } from '../types';
+import withSession from './withSession';
+
+interface ImpressionReturnType {
+	_id: string;
+	identifier: Identifier;
+	content: string;
+	content_id: string;
+	level: string;
+	platform: Platform;
+	language: Language;
+	version: Version;
+	direction: string;
+	date: number;
+}
 
 export default ({
 	defaultIdentifier = '',
@@ -19,7 +33,7 @@ export default ({
 	defaultPlatform: Platform;
 	defaultLanguage: Language;
 	defaultVersion: Version;
-}) => ({endpoint}: {endpoint: string}) => {
+}): any => ({endpoint}: {endpoint: string}): any => {
 	const impression = async ({
 		identifier = defaultIdentifier,
 		platform = defaultPlatform,
@@ -28,20 +42,7 @@ export default ({
 		level = 'VIEW',
 		language = defaultLanguage,
 		version = defaultVersion
-	}: Impression): Promise<{
-		impression: {
-			_id: string;
-			identifier: Identifier;
-			content: string;
-			content_id: string;
-			level: string;
-			platform: Platform;
-			language: Language;
-			version: Version;
-			direction: string;
-			date: number;
-		};
-	}> => {
+	}: Impression): Promise<any> => {
 		const response = await fetch(`${endpoint}/telemetry/impression`, {
 			method: 'POST',
 			headers: {
@@ -67,31 +68,13 @@ export default ({
 		return data;
 	};
 
-	const session: Session = async (data: Impression) => {
-		const response = await impression(data);
-		const interval = setInterval(async () => {
-			await update({
-				identifier: data.identifier,
-				id: response.impression._id
-			});
-			console.log('Updated impression');
-		}, 10000);
-		return {
-			response,
-			clear: () => {
-				console.log('Stopped session');
-				clearInterval(interval);
-			}
-		};
-	};
-
 	const update = async ({
 		identifier = defaultIdentifier,
 		id
 	}: {
 		identifier: string | null;
 		id: string;
-	}) => {
+	}): Promise<PlainObject> => {
 		const response = await fetch(`${endpoint}/telemetry/impression/${id}`, {
 			method: 'PATCH',
 			headers: {
@@ -106,6 +89,29 @@ export default ({
 			throw new Error('Request failed ' + response.status);
 		}
 		return response.json();
+	};
+
+	const session: Session = async (
+		data: Impression
+	): Promise<{
+		response: any;
+		clear: () => void;
+	}> => {
+		const response = await impression(data);
+		const interval = setInterval(async (): Promise<void> => {
+			await update({
+				identifier: data.identifier,
+				id: response.impression._id
+			});
+			console.log('Updated impression');
+		}, 10000);
+		return {
+			response,
+			clear: (): void => {
+				console.log('Stopped session');
+				clearInterval(interval);
+			}
+		};
 	};
 
 	return {

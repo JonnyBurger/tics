@@ -1,7 +1,10 @@
 import {Collection} from 'mongodb';
 import {PlainObject, Breakdown} from './types';
 
-export const getUsers = async (db: Collection, query?: PlainObject) => {
+export const getUsers = async (
+	db: Collection,
+	query?: PlainObject
+): Promise<number> => {
 	const [result] = await db
 		.aggregate(
 			[
@@ -57,13 +60,24 @@ export const getBreakdown = async (
 			{$project: {[field]: 1, count: {$size: '$users'}}}
 		])
 		.toArray();
-	return aggregated.map(({_id, ...a}: {_id: string; count: number}) => ({
-		...a,
-		id: _id
-	}));
+	return aggregated.map(
+		({
+			_id,
+			...a
+		}: {
+			_id: string;
+			count: number;
+		}): {id: string; count: number} => ({
+			...a,
+			id: _id
+		})
+	);
 };
 
-export const getActivityLevels = async (db: Collection, content: string) => {
+export const getActivityLevels = async (
+	db: Collection,
+	content: string
+): Promise<any> => {
 	const aggregated = await db
 		.aggregate([
 			{$match: {content}},
@@ -72,16 +86,18 @@ export const getActivityLevels = async (db: Collection, content: string) => {
 			{$project: {level: 1, count: {$size: '$users'}}}
 		])
 		.toArray();
-	return aggregated.map(({_id, ...a}: any) => ({
-		...a,
-		id: _id
-	}));
+	return aggregated.map(
+		({_id, ...a}: any): any => ({
+			...a,
+			id: _id
+		})
+	);
 };
 
 export const getActivityLevelsById = async (
 	db: Collection,
 	content_id: string
-) => {
+): Promise<any> => {
 	const aggregated = await db
 		.aggregate([
 			{$match: {content_id}},
@@ -90,10 +106,12 @@ export const getActivityLevelsById = async (
 			{$project: {level: 1, count: {$size: '$users'}}}
 		])
 		.toArray();
-	return aggregated.map(({_id, ...a}: any) => ({
-		...a,
-		id: _id
-	}));
+	return aggregated.map(
+		({_id, ...a}: any): any => ({
+			...a,
+			id: _id
+		})
+	);
 };
 
 export const getContent = async (db: Collection): Promise<string[]> => {

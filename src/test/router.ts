@@ -4,7 +4,7 @@ import got from 'got';
 // @ts-ignore
 import getPort from 'get-port';
 import pify from 'pify';
-import mongo from 'then-mongo';
+import {MongoClient} from 'mongodb';
 import {sortBy} from 'lodash';
 import tics from '../server';
 import {create, destroy} from './helpers/db-mock';
@@ -17,10 +17,12 @@ test.beforeEach(
 		t.context.port = port;
 		t.context.dbName = dbName;
 		t.context.dbUrl = `mongodb://${userName}:test@localhost:27017/${dbName}`;
-		t.context.db = mongo(t.context.dbUrl, ['impressions']);
+		t.context.db = await MongoClient.connect(t.context.dbUrl, {
+			useNewUrlParser: true
+		});
 		t.context.api = `http://localhost:${t.context.port}`;
 		const {impressions, analytics, stats} = tics({
-			db: t.context.db.impressions
+			db: t.context.db.db(t.context.dbName).collection('impressions')
 		});
 		t.context.stats = stats;
 		app.use('/analytics', analytics);
@@ -96,7 +98,10 @@ test('Should successfully add an impression', async (t): Promise<void> => {
 	});
 	t.true(response.body.success);
 	t.is(response.body.data.impression._id.length, 24);
-	const count = await t.context.db.impressions.count();
+	const count = await t.context.db
+		.db(t.context.dbName)
+		.collection('impressions')
+		.countDocuments();
 	t.is(count, 1);
 });
 

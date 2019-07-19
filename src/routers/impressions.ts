@@ -47,7 +47,7 @@ export default ({db}: {db: Collection}) => {
 				direction,
 				date: Date.now()
 			});
-			const result = await db.insert(impression);
+			const result = await db.insertOne(impression);
 			return {
 				impression: result.ops ? result.ops[0] : result
 			};
@@ -85,7 +85,7 @@ export default ({db}: {db: Collection}) => {
 				throw createError(400, 'Should be the same identifier');
 			}
 			const lastUpdated = Date.now();
-			await db.update(
+			await db.updateOne(
 				{
 					_id: new ObjectId(id)
 				},

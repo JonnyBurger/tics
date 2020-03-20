@@ -1,0 +1,16 @@
+on: push
+name: Install and Test
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - run: npm i
+    - run: npm test
+    - name: Annotate Code Linting Results
+      uses: JonnyBurger/eslint-annotate-action@1.0.8
+      if: always()
+      with:
+        repo-token: '${{ secrets.GITHUB_TOKEN }}'
+        report-json: 'eslint_report.json'

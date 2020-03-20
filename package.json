@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/JonnyBurger/tics#readme",
   "dependencies": {
-    "@react-navigation/core": "^3.0.0-alpha.19",
+    "@react-navigation/core": "^5.2.3",
     "@types/got": "^9.6.2",
     "@types/pify": "^3.0.2",
     "@types/randomstring": "^1.1.6",

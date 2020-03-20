@@ -4,7 +4,7 @@
   "description": "Simple analytics",
   "main": "dist",
   "scripts": {
-    "test": "eslint 'src/*.ts' && npm run build && TEST=true ava dist/test",
+    "test": "eslint 'src/*.ts' $([ -z \"$GITHUB_WORKSPACE\" ] && echo \"\" || echo \"--output-file eslint_report.json --format json\") && npm run build && TEST=true ava dist/test",
     "build": "tsc",
     "prepare": "npm run build"
   },

@@ -5,18 +5,20 @@ import got from 'got';
 import getPort from 'get-port';
 import pify from 'pify';
 import {MongoClient} from 'mongodb';
-import {sortBy} from 'lodash';
+import {MongoMemoryServer} from 'mongodb-memory-server';
+import sortBy from 'lodash/sortBy';
 import tics from '../server';
-import {create, destroy} from './helpers/db-mock';
 
 test.beforeEach(
 	async (t): Promise<void> => {
-		const [dbName, userName] = await create();
 		const port = await getPort();
 		const app = express();
+		const mongod = new MongoMemoryServer();
+
 		t.context.port = port;
-		t.context.dbName = dbName;
-		t.context.dbUrl = `mongodb://${userName}:test@localhost:27017/${dbName}`;
+		t.context.dbName = await mongod.getDbName();
+		t.context.dbUrl = await mongod.getUri();
+		t.context.stop = (): Promise<boolean> => mongod.stop();
 		t.context.db = await MongoClient.connect(t.context.dbUrl, {
 			useNewUrlParser: true
 		});
@@ -28,12 +30,6 @@ test.beforeEach(
 		app.use('/analytics', analytics);
 		app.use('/telemetry', impressions);
 		await pify(app.listen.bind(app))(port);
-	}
-);
-
-test.afterEach.always(
-	async (t): Promise<void> => {
-		await destroy(t.context.dbName);
 	}
 );
 
@@ -167,16 +163,19 @@ test('Should be able to breakdown installs and registers', async (t): Promise<
 		platform: 'ios'
 	});
 	const types = await t.context.stats.activityLevels.byContentType('register');
-	t.deepEqual(sortBy(types, (_t: any): string => _t.id), [
-		{
-			id: 'install',
-			count: 1
-		},
-		{
-			id: 'register',
-			count: 1
-		}
-	]);
+	t.deepEqual(
+		sortBy(types, (_t: any): string => _t.id),
+		[
+			{
+				id: 'install',
+				count: 1
+			},
+			{
+				id: 'register',
+				count: 1
+			}
+		]
+	);
 });
 
 test('Should not be able to update an impression that does not exist', async (t): Promise<

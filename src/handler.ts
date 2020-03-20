@@ -39,7 +39,7 @@ export const asyncHandler = <Req, Res>(
 	): Promise<void> {
 		try {
 			const data = await fn(request, response);
-			exports.successHandler(response, data);
+			successHandler(response, data);
 		} catch (err) {
 			if (!process.env.TEST || (!err.status && err.name !== 'ArgumentError')) {
 				console.log(err);

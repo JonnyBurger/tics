@@ -59,7 +59,7 @@
     "@jonny/eslint-config": "^2.1.108",
     "@types/body-parser": "^1.17.0",
     "@types/cors": "^2.8.4",
-    "@types/express": "^4.16.1",
+    "@types/express": "^4.17.3",
     "@types/http-errors": "^1.6.1",
     "@types/lodash": "^4.14.122",
     "@types/mongodb": "^3.1.20",

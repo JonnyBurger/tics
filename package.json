@@ -43,7 +43,7 @@
     "cors": "^2.8.5",
     "es-abstract": "^1.17.5",
     "express": "^4.17.1",
-    "get-port": "^4.0.0",
+    "get-port": "^5.1.1",
     "got": "^9.2.2",
     "hoist-non-react-statics": "^3.3.2",
     "http-errors": "^1.7.3",

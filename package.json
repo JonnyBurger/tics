@@ -44,7 +44,7 @@
     "es-abstract": "^1.17.5",
     "express": "^4.17.1",
     "get-port": "^5.1.1",
-    "got": "^9.2.2",
+    "got": "^10.6.0",
     "hoist-non-react-statics": "^3.3.2",
     "http-errors": "^1.7.3",
     "lodash": "^4.17.11",

@@ -34,7 +34,6 @@
   "homepage": "https://github.com/JonnyBurger/tics#readme",
   "dependencies": {
     "@react-navigation/core": "^3.0.0-alpha.19",
-    "@types/got": "^9.6.2",
     "@types/pify": "^3.0.2",
     "@types/randomstring": "^1.1.6",
     "babel-cli": "^6.26.0",
@@ -44,7 +43,7 @@
     "es-abstract": "^1.17.4",
     "express": "^4.16.4",
     "get-port": "^4.0.0",
-    "got": "^9.2.2",
+    "got": "^10.7.0",
     "hoist-non-react-statics": "^3.1.0",
     "http-errors": "^1.7.1",
     "lodash": "^4.17.11",

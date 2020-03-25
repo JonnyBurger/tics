@@ -51,7 +51,7 @@
     "mongodb": "^3.5.5",
     "mongodb-memory-server": "^6.5.0",
     "ms": "^2.1.2",
-    "ow": "^0.8.0",
+    "ow": "^0.17.0",
     "pify": "^5.0.0",
     "randomstring": "^1.1.5"
   },

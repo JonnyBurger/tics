@@ -3,8 +3,6 @@ update_configs:
   - package_manager: javascript
     directory: '/'
     update_schedule: 'live'
-    default_assignees:
-      - 'JonnyBurger'
     ignored_updates:
       - match:
           dependency_name: 'uuid'

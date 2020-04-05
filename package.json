@@ -48,7 +48,7 @@
     "http-errors": "^1.7.3",
     "lodash": "^4.17.15",
     "mongodb": "^3.5.5",
-    "mongodb-memory-server": "^6.5.1",
+    "mongodb-memory-server": "^6.5.2",
     "ms": "^2.1.2",
     "ow": "^0.17.0",
     "pify": "^5.0.0",

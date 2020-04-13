@@ -22,7 +22,7 @@ export interface SessionResponse {
 	clear: () => void;
 }
 
-export type Session = (data: Impression) => Promise<SessionResponse>;
+export type V3Session = () => Promise<SessionResponse>;
 
 export interface PlainObject {
 	[name: string]: any;

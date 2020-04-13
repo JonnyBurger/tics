@@ -1,3 +1,1 @@
-import * as tics from './dist/index';
-
-export default tics;
+export * from './dist/index';

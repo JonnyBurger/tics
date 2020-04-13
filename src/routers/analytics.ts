@@ -1,21 +1,21 @@
-import ms from 'ms';
-import {Router} from 'express';
-import ow from 'ow';
 import bodyParser from 'body-parser';
-import {pickBy} from 'lodash';
 import cors from 'cors';
+import {Router} from 'express';
+import pickBy from 'lodash/pickBy';
+import {Collection} from 'mongodb';
+import ms from 'ms';
+import ow from 'ow';
 import {asyncHandler} from '../handler';
 import {
-	getUsers,
 	getBreakdown,
 	getContent,
-	getSessions,
+	getContentEngagementLevel,
 	getImpressions,
+	getSessions,
 	getTotalTimeSpent,
-	getContentEngagementLevel
+	getUsers,
 } from '../methods';
-import {Collection} from 'mongodb';
-import {TimeRange, Platform, Version, Breakdown} from '../types';
+import {Breakdown, Platform, TimeRange, Version} from '../types';
 
 const getDate = (date: TimeRange) => {
 	if (date === 'yearly') {
@@ -56,24 +56,24 @@ export default ({db}: {db: Collection}) => {
 			}
 		>(async () => {
 			const dailyActiveUsers = await getUsers(db, {
-				date: {$gt: Date.now() - ms('1d')}
+				date: {$gt: Date.now() - ms('1d')},
 			});
 			const weeklyActiveUsers = await getUsers(db, {
-				date: {$gt: Date.now() - ms('7d')}
+				date: {$gt: Date.now() - ms('7d')},
 			});
 			const monthlyActiveUsers = await getUsers(db, {
-				date: {$gt: Date.now() - ms('30d')}
+				date: {$gt: Date.now() - ms('30d')},
 			});
 			const platformBreakdown = await getBreakdown(db, 'platform');
 			return {
 				activeUsers: {
 					daily: dailyActiveUsers,
 					weekly: weeklyActiveUsers,
-					monthly: monthlyActiveUsers
+					monthly: monthlyActiveUsers,
 				},
 				breakdown: {
-					platform: platformBreakdown
-				}
+					platform: platformBreakdown,
+				},
 			};
 		})
 	);
@@ -96,7 +96,7 @@ export default ({db}: {db: Collection}) => {
 				totalTimeSpent: number;
 				averageSession: number;
 			}
-		>(async request => {
+		>(async (request) => {
 			const {date, content, platform, level, version} = request.query;
 			ow(date, ow.any(ow.string, ow.nullOrUndefined));
 			ow(content, ow.any(ow.string, ow.nullOrUndefined));
@@ -108,7 +108,7 @@ export default ({db}: {db: Collection}) => {
 				content,
 				platform,
 				level,
-				version
+				version,
 			});
 			const uniqueUsers = await getUsers(db, query);
 			const sessions = await getSessions(db, query);
@@ -124,7 +124,7 @@ export default ({db}: {db: Collection}) => {
 				sessions,
 				impressions,
 				totalTimeSpent,
-				averageSession
+				averageSession,
 			};
 		})
 	);
@@ -133,7 +133,7 @@ export default ({db}: {db: Collection}) => {
 		asyncHandler<{}, {content: string[]}>(async () => {
 			const content = await getContent(db);
 			return {
-				content
+				content,
 			};
 		})
 	);
@@ -146,11 +146,11 @@ export default ({db}: {db: Collection}) => {
 				};
 			},
 			{levels: string[]}
-		>(async request => {
+		>(async (request) => {
 			const {id} = request.params;
 			const levels = await getContentEngagementLevel(db, id);
 			return {
-				levels
+				levels,
 			};
 		})
 	);
@@ -159,7 +159,7 @@ export default ({db}: {db: Collection}) => {
 		asyncHandler<{}, {platforms: string[]}>(async () => {
 			const platforms = await db.distinct('platform', {});
 			return {
-				platforms
+				platforms,
 			};
 		})
 	);
@@ -168,7 +168,7 @@ export default ({db}: {db: Collection}) => {
 		asyncHandler<{}, {versions: string[]}>(async () => {
 			const versions = await db.distinct('version', {});
 			return {
-				versions
+				versions,
 			};
 		})
 	);
@@ -177,7 +177,7 @@ export default ({db}: {db: Collection}) => {
 		asyncHandler<{}, {platforms: Breakdown}>(async () => {
 			const platforms = await getBreakdown(db, 'platform');
 			return {
-				platforms
+				platforms,
 			};
 		})
 	);

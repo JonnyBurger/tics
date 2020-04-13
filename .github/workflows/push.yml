@@ -20,5 +20,5 @@ jobs:
     - if: github.ref == 'refs/heads/master'
       run: |
         echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-        node -e "a=require('./package.json');a.version='2.1.$(curl https://increment.build/$INCREMENT_BUILD_ID)';require('fs').writeFileSync('package.json', JSON.stringify(a, null, 2))"
+        node -e "a=require('./package.json');a.version='3.0.$(curl https://increment.build/$INCREMENT_BUILD_ID)';require('fs').writeFileSync('package.json', JSON.stringify(a, null, 2))"
         npm publish --access=public

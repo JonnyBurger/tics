@@ -108,8 +108,6 @@ export const Comp = () => {
 }
 ```
 
-Not yet implemented!
-
 ## 👨🏻‍💻 Author
 
 * [Jonny Burger](https://jonny.io)

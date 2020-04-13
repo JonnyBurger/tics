@@ -53,15 +53,14 @@ await stats.activeUsers.daily() // => 29
         - `stats.activityLevels.byContentId(content_id)` returns the breakdown of the different interactions with one entity of a content. Example reponse: `[{id: 'view', count: 20000, {id: 'click', count: 1000}, {id: 'conversion': 20}}]`,
     - `stats.db` provides raw access to make queries yourself
 
-### React Native
+### Track from React Native / Expo / Web
 
-```js
-// use require('tics/expo') for expo!
-const tics = require('tics/native');
+```ts
+import tics from 'tics';
 
 const analytics = tics({endpoint: 'https://jonny.io/api/telemetry'});
 
-analytics.impression({
+tics.impression('https://jonny.io/api/telemetry', {
     content: 'ad',
     content_id: '3240978',
     level: 'view',
@@ -85,7 +84,29 @@ Returned is an object which contains:
     - `impression.identifier` *optional*: Identifying string of the user. Multiple impressions by the same user get removed when calculating number of users. React native client will try to use native identifier when omitted.
     - `impression.language` *optional*: Language of user's device
     - `impression.version` *optional*: App version number. React Native client will try to find it when this parameter is omitted.
-### Browser
+    
+### Track sessions
+
+Track sessions using React hooks. Pass a value for `isFocused` and it will automatically stop tracking if the user navigates away in React Native.
+
+```ts
+import {useTics} from 'tics';
+import {useIsFocused} from '@react-navigation/native';
+
+export const Comp = () => {
+    const isFocused = useIsFocused();
+    useTics(isFocused, 'https://jonny.io/api/telemetry', {
+        content: 'ad',
+        content_id: '3240978',
+        level: 'view',
+        platform: 'ios',
+        identifier: '098324',
+        language: 'de',
+        version: '1.0.0'
+    })
+    return null;
+}
+```
 
 Not yet implemented!
 

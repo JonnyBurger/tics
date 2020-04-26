@@ -60,7 +60,7 @@
     "@types/lodash": "^4.14.150",
     "@types/mongodb": "^3.5.14",
     "@types/ms": "^0.7.31",
-    "@types/node": "^13.13.3",
+    "@types/node": "^13.13.4",
     "@types/react": "^16.9.34",
     "ava": "^0.25.0",
     "babel-eslint": "^10.1.0",

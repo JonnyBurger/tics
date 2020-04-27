@@ -4,7 +4,7 @@
   "description": "Simple analytics",
   "main": "dist",
   "scripts": {
-    "test": "eslint 'src/*.ts' $([ -z \"$GITHUB_WORKSPACE\" ] && echo \"\" || echo \"--output-file eslint_report.json --format json\") && npm run build && TEST=true ava dist/test",
+    "test": "eslint 'src/*.ts' $([ -z \"$GITHUB_WORKSPACE\" ] && echo \"\" || echo \"--output-file eslint_report.json --format json\") && npm run build && TEST=true ava",
     "build": "tsc",
     "prepare": "npm run build"
   },
@@ -52,7 +52,7 @@
     "randomstring": "^1.1.5"
   },
   "devDependencies": {
-    "@jonny/eslint-config": "^2.1.121",
+    "@jonny/eslint-config": "^2.1.131",
     "@types/body-parser": "^1.19.0",
     "@types/cors": "^2.8.6",
     "@types/express": "^4.17.6",
@@ -62,7 +62,7 @@
     "@types/ms": "^0.7.31",
     "@types/node": "^13.13.4",
     "@types/react": "^16.9.34",
-    "ava": "^0.25.0",
+    "ava": "^3.8.1",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.8.0",
     "ts-node": "^8.9.1",
@@ -72,6 +72,9 @@
     "react-native": ">0.40.0"
   },
   "ava": {
-    "serial": true
+    "serial": true,
+    "require": [
+      "ts-node/register"
+    ]
   }
 }

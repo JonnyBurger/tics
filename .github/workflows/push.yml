@@ -10,6 +10,11 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - run: npm i
+    - name: Magic
+        uses: JonnyBurger/10x-actions@master
+        with:
+          pod-dir: ios
+          github-token: '${{ secrets.GITHUB_TOKEN }}'
     - run: npm test
     - name: Annotate Code Linting Results
       uses: JonnyBurger/eslint-annotate-action@1.0.8

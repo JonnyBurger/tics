@@ -1,31 +1,30 @@
 import {Collection} from 'mongodb';
-
 import ms from 'ms';
-import impressionRouter from './routers/impressions';
-import analyticsRouter from './routers/analytics';
 import {
-	getUsers,
-	getBreakdown,
 	getActivityLevels,
-	getActivityLevelsById
+	getActivityLevelsById,
+	getBreakdown,
+	getUsers,
 } from './methods';
+import analyticsRouter from './routers/analytics';
+import impressionRouter from './routers/impressions';
 import {Breakdown} from './types';
 
-export default ({db}: {db: Collection}): any => {
+export const server = ({db}: {db: Collection}): any => {
 	const impressions = impressionRouter({db});
 	const analytics = analyticsRouter({db});
 	const stats = {
 		dau: (): Promise<number> =>
 			getUsers(db, {
-				date: {$gt: Date.now() - ms('1d')}
+				date: {$gt: Date.now() - ms('1d')},
 			}),
 		wau: (): Promise<number> =>
 			getUsers(db, {
-				date: {$gt: Date.now() - ms('7d')}
+				date: {$gt: Date.now() - ms('7d')},
 			}),
 		mau: (): Promise<number> =>
 			getUsers(db, {
-				date: {$gt: Date.now() - ms('30d')}
+				date: {$gt: Date.now() - ms('30d')},
 			}),
 		userCount: (query = {}): Promise<number> => {
 			return getUsers(db, query);
@@ -39,9 +38,11 @@ export default ({db}: {db: Collection}): any => {
 			byContentType: (content: string): Promise<any> =>
 				getActivityLevels(db, content),
 			byContentId: (content_id: string): Promise<any> =>
-				getActivityLevelsById(db, content_id)
+				getActivityLevelsById(db, content_id),
 		},
-		db
+		db,
 	};
 	return {impressions, analytics, stats};
 };
+
+export default server;

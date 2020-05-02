@@ -37,7 +37,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "got": "^11.0.3",
+    "got": "^11.1.0",
     "es-abstract": "^1.17.5",
     "express": "^4.17.1",
     "get-port": "^5.1.1",

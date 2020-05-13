@@ -37,10 +37,10 @@
     "babel-preset-stage-0": "^6.24.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "got": "^11.1.2",
     "es-abstract": "^1.17.5",
     "express": "^4.17.1",
     "get-port": "^5.1.1",
+    "got": "^11.1.2",
     "hoist-non-react-statics": "^3.3.2",
     "http-errors": "^1.7.3",
     "lodash": "^4.17.15",
@@ -49,7 +49,8 @@
     "ms": "^2.1.2",
     "ow": "^0.17.0",
     "pify": "^5.0.0",
-    "randomstring": "^1.1.5"
+    "randomstring": "^1.1.5",
+    "uninstall": "0.0.0"
   },
   "devDependencies": {
     "@jonny/eslint-config": "^2.1.146",

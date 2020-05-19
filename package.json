@@ -69,7 +69,7 @@
     "prettier": "^2.0.5",
     "prettier-plugin-organize-imports": "^1.0.4",
     "ts-node": "^8.10.1",
-    "typescript": "^3.9.2"
+    "typescript": "^3.9.3"
   },
   "peerDependencies": {
     "react-native": ">0.40.0"

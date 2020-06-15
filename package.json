@@ -44,7 +44,7 @@
     "hoist-non-react-statics": "^3.3.2",
     "http-errors": "^1.7.3",
     "lodash": "^4.17.15",
-    "mongodb": "^3.5.8",
+    "mongodb": "^3.5.9",
     "mongodb-memory-server": "^6.6.1",
     "ms": "^2.1.2",
     "ow": "^0.17.0",

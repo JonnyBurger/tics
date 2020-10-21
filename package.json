@@ -57,7 +57,7 @@
     "@types/cors": "^2.8.8",
     "@types/express": "^4.17.8",
     "@types/http-errors": "^1.8.0",
-    "@types/lodash": "^4.14.157",
+    "@types/lodash": "^4.14.162",
     "@types/mongodb": "^3.5.30",
     "@types/ms": "^0.7.31",
     "@types/node": "^14.14.0",

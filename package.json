@@ -38,7 +38,7 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "got": "^11.8.1",
-    "es-abstract": "^1.17.7",
+    "es-abstract": "^1.18.2",
     "express": "^4.17.1",
     "get-port": "^5.1.1",
     "hoist-non-react-statics": "^3.3.2",

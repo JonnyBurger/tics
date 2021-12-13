@@ -35,7 +35,7 @@
     "@types/randomstring": "^1.1.6",
     "babel-cli": "^6.26.0",
     "babel-preset-stage-0": "^6.24.1",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.19.1",
     "cors": "^2.8.5",
     "got": "^11.8.1",
     "es-abstract": "^1.17.7",
